@@ -244,12 +244,9 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
   observe({
     inputs <- reactiveValuesToList(input)
 
-    # do not update the currently open picker
-    # (this may lead to an infinite feedback loop)
+    # only process on opening of active picker
     is_open <- unlist(inputs[grep("_open$", names(inputs), value = TRUE)])
     open_var <- gsub("_open$", "", names(is_open)[is_open])
-
-    # only process on first opening
     req(open_var)
     if (identical(g_locked_var, open_var)) return()
     g_locked_var <<- open_var
