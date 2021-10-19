@@ -135,14 +135,7 @@ pickerGroupUI <- function(id, params, label = NULL, btn_label = "Reset filters",
               choices = input$choices,
               multiple = TRUE,
               width = "100%",
-              options = modifyList(
-                x = options,
-                val = list(
-                  `actions-box` = FALSE,
-                  `selected-text-format`= "count > 5",
-                  `count-selected-text` = "{0} choices (on a total of {1})"
-                )
-              )
+              options = options
             )
           )
           return(tagSelect)
@@ -160,14 +153,7 @@ pickerGroupUI <- function(id, params, label = NULL, btn_label = "Reset filters",
           choices = x$choices,
           multiple = TRUE,
           width = "100%",
-          options = modifyList(
-            x = options,
-            val = list(
-              `actions-box` = FALSE,
-              `selected-text-format`= "count > 5",
-              `count-selected-text` = "{0} choices (on a total of {1})"
-            )
-          )
+          options = options
         )
       }
     )
