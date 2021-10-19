@@ -268,24 +268,24 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
       toggleDisplayServer(session = session, id = ns("reset_all"), display = "block")
     }
 
-        tmp <- aggregate(
-          formula = as.formula(paste("indicator", open_var, sep = "~")),
-          data = data,
-          FUN = Reduce, f = `|`
+    tmp <- aggregate(
+      formula = as.formula(paste("indicator", open_var, sep = "~")),
+      data = data,
+      FUN = Reduce, f = `|`
+    )
+    updatePickerInput(
+      session = session,
+      inputId = open_var,
+      choices = tmp[[open_var]],
+      selected = inputs[[open_var]],
+      choicesOpt = list(
+        style = ifelse(
+          !tmp$indicator,
+          yes = "color: rgba(119, 119, 119, 0.5);",
+          no = ""
         )
-        updatePickerInput(
-          session = session,
-          inputId = open_var,
-          choices = tmp[[open_var]],
-          selected = inputs[[open_var]],
-          choicesOpt = list(
-            style = ifelse(
-              !tmp$indicator,
-              yes = "color: rgba(119, 119, 119, 0.5);",
-              no = ""
-            )
-          )
-        )
+      )
+    )
   })
 
 
