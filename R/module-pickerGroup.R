@@ -259,11 +259,6 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
       }
     )
     data$indicator <- Reduce(f = `&`, x = indicator)
-    if (all(data$indicator)) {
-      toggleDisplayServer(session = session, id = ns("reset_all"), display = "none")
-    } else {
-      toggleDisplayServer(session = session, id = ns("reset_all"), display = "block")
-    }
 
     tmp <- aggregate(
       formula = as.formula(paste("indicator", open_var, sep = "~")),
