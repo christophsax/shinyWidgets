@@ -240,6 +240,7 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
     )
   })
 
+  g_locked_var <<- NULL
   observe({
     inputs <- reactiveValuesToList(input)
 
@@ -248,9 +249,14 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
     is_open <- unlist(inputs[grep("_open$", names(inputs), value = TRUE)])
     open_var <- gsub("_open$", "", names(is_open)[is_open])
 
+    # only process on first opening
+    req(open_var)
+    if (identical(g_locked_var, open_var)) return()
+    g_locked_var <<- open_var
+
     inputs[["reset_all"]] <- NULL
     indicator <- lapply(
-      X = vars,
+      X = setdiff(vars, open_var),
       FUN = function(x) {
         data[[x]] %inT% inputs[[x]]
       }
@@ -262,7 +268,7 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
       toggleDisplayServer(session = session, id = ns("reset_all"), display = "block")
     }
     lapply(
-      X = setdiff(vars, open_var),
+      X = open_var,
       FUN = function(x) {
         tmp <- aggregate(
           formula = as.formula(paste("indicator", x, sep = "~")),
