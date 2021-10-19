@@ -240,8 +240,6 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
     )
   })
 
-  data_r <- reactiveValues()
-
   observe({
     inputs <- reactiveValuesToList(input)
     inputs[["reset_all"]] <- NULL
