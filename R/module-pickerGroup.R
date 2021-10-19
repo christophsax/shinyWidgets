@@ -242,6 +242,12 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
 
   observe({
     inputs <- reactiveValuesToList(input)
+
+    # do not update the currently open picker
+    # (this may lead to an infinite feedback loop)
+    is_open <- unlist(inputs[grep("_open$", names(inputs), value = TRUE)])
+    open_var <- gsub("_open$", "", names(is_open)[is_open])
+
     inputs[["reset_all"]] <- NULL
     indicator <- lapply(
       X = vars,
@@ -256,7 +262,7 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
       toggleDisplayServer(session = session, id = ns("reset_all"), display = "block")
     }
     lapply(
-      X = vars,
+      X = setdiff(vars, open_var),
       FUN = function(x) {
         tmp <- aggregate(
           formula = as.formula(paste("indicator", x, sep = "~")),
