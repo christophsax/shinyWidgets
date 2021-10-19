@@ -271,7 +271,6 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
           choices = tmp[[x]],
           selected = inputs[[x]],
           choicesOpt = list(
-            disabled = !tmp$indicator,
             style = ifelse(
               !tmp$indicator,
               yes = "color: rgba(119, 119, 119, 0.5);",
