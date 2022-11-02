@@ -247,8 +247,8 @@ pickerGroupServer <- function(input, output, session, data, vars) { # nocov star
     data$indicator <- Reduce(f = `&`, x = indicator)
 
     tmp <- aggregate(
-      formula = as.formula(paste("indicator", open_var, sep = "~")),
-      data = data,
+      list(indicator = data$indicator),
+      by = setNames(list(data[[open_var]]), open_var),
       FUN = Reduce, f = `|`
     )
 
